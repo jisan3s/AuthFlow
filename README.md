@@ -97,14 +97,6 @@ cd backend
 npm run dev
 ```
 
-Build and run the backend for production:
-
-```bash
-cd backend
-npm run build
-npm start
-```
-
 Start the frontend:
 
 ```bash
@@ -116,34 +108,6 @@ Open:
 
 ```text
 http://127.0.0.1:4200
-```
-
-## GitHub Pages Frontend Deployment
-
-This repository includes a GitHub Actions workflow at:
-
-```text
-.github/workflows/deploy-frontend.yml
-```
-
-The workflow builds the Angular frontend and deploys it to GitHub Pages whenever changes are pushed to `main`.
-
-Expected frontend URL:
-
-```text
-https://jisan3s.github.io/AuthFlow/
-```
-
-GitHub Pages only hosts the frontend. The backend API still needs to be deployed to a Node.js host such as Render, Railway, or Fly.io. After deploying the backend, update:
-
-```text
-frontend/src/app/core/config/api.config.ts
-```
-
-with the production API URL:
-
-```ts
-export const API_BASE_URL = 'https://your-backend-domain/api';
 ```
 
 ## Seeding Products
@@ -192,10 +156,10 @@ Main route groups:
 ## Security Notes
 
 - Never commit `.env` files or real credentials.
-- Use a strong `JWT_SECRET` in production.
+- Use a strong `JWT_SECRET`.
 - Use Stripe test keys only for local development, and keep them in your local `.env` file.
 - Rotate any credential that was accidentally committed or shared.
-- Restrict CORS and environment-specific URLs before production deployment.
+- Review CORS and environment-specific URLs before sharing the app outside local development.
 
 ## Validation
 

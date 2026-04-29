@@ -4,8 +4,6 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "tsc",
-    "start": "node dist/server.js",
     "dev": "ts-node-dev src/server.ts",
     "seed:main-admin": "ts-node src/seeds/mainAdmin.ts",
     "seed:products": "ts-node src/seeds/products.ts",
