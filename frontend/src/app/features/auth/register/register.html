@@ -1,0 +1,42 @@
+<div class="text-center mb-4">
+    <h3>Create Account</h3>
+</div>
+
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+    <div class="mb-3">
+        <input type="text" class="form-control" placeholder="Full Name" formControlName="name">
+    </div>
+
+    <div class="mb-3">
+        <input type="email" class="form-control" placeholder="Email" formControlName="email">
+    </div>
+
+    <div class="mb-3">
+        <input type="password" class="form-control" placeholder="Password" formControlName="password">
+        @if (form.controls.password.invalid && form.controls.password.touched) {
+            <small class="text-danger">Password must be at least 6 characters.</small>
+        }
+    </div>
+
+    @if (error) {
+        <div class="alert alert-danger">{{ error }}</div>
+    }
+
+    @if (success) {
+        <div class="alert alert-success">{{ success }}</div>
+    }
+
+    <button class="btn btn-success w-100" [disabled]="loading">
+        @if (loading) {
+            Creating...
+        } @else {
+            Register
+        }
+    </button>
+
+    <div class="text-center mt-3">
+        <a routerLink="/auth/login">Already have an account? Sign in</a>
+    </div>
+
+</form>

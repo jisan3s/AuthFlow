@@ -1,0 +1,98 @@
+<div class="products-admin">
+    <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
+        <div>
+            <h2 class="mb-1">Products</h2>
+            <p class="text-muted mb-0">Create and manage storefront inventory.</p>
+        </div>
+        <button type="button" class="btn btn-outline-secondary" (click)="resetForm()">New product</button>
+    </div>
+
+    <div class="alert alert-danger" *ngIf="error">{{ error }}</div>
+    <div class="alert alert-success" *ngIf="success">{{ success }}</div>
+
+    <div class="row g-4">
+        <div class="col-lg-4">
+            <form class="product-form" (ngSubmit)="saveProduct()">
+                <h5 class="mb-3">{{ editingId ? 'Edit product' : 'Add product' }}</h5>
+
+                <label class="form-label">Name</label>
+                <input class="form-control mb-3" name="name" [(ngModel)]="form.name" required />
+
+                <label class="form-label">Category</label>
+                <input class="form-control mb-3" name="category" [(ngModel)]="form.category" required />
+
+                <label class="form-label">Description</label>
+                <textarea class="form-control mb-3" rows="4" name="description" [(ngModel)]="form.description" required></textarea>
+
+                <label class="form-label">Image URL</label>
+                <input class="form-control mb-3" name="imageUrl" [(ngModel)]="form.imageUrl" required />
+
+                <div class="row g-3">
+                    <div class="col-6">
+                        <label class="form-label">Price</label>
+                        <input class="form-control" type="number" min="0" step="0.01" name="price" [(ngModel)]="form.price" required />
+                    </div>
+                    <div class="col-6">
+                        <label class="form-label">Stock</label>
+                        <input class="form-control" type="number" min="0" step="1" name="stock" [(ngModel)]="form.stock" required />
+                    </div>
+                </div>
+
+                <div class="form-check form-switch my-3">
+                    <input class="form-check-input" type="checkbox" role="switch" id="isActive" name="isActive" [(ngModel)]="form.isActive" />
+                    <label class="form-check-label" for="isActive">Visible in shop</label>
+                </div>
+
+                <button class="btn btn-dark w-100" type="submit" [disabled]="saving">
+                    {{ saving ? 'Saving...' : (editingId ? 'Update product' : 'Create product') }}
+                </button>
+            </form>
+        </div>
+
+        <div class="col-lg-8">
+            <div class="table-responsive bg-white border rounded">
+                <table class="table align-middle mb-0">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Price</th>
+                            <th>Stock</th>
+                            <th>Status</th>
+                            <th class="text-end">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngIf="loading">
+                            <td colspan="5" class="text-center py-4">Loading products...</td>
+                        </tr>
+                        <tr *ngFor="let product of products">
+                            <td>
+                                <div class="d-flex align-items-center gap-3">
+                                    <img [src]="product.imageUrl" [alt]="product.name" />
+                                    <div>
+                                        <div class="fw-semibold">{{ product.name }}</div>
+                                        <div class="small text-muted">{{ product.category }}</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>{{ product.price | currency }}</td>
+                            <td>{{ product.stock }}</td>
+                            <td>
+                                <span class="badge" [class.text-bg-success]="product.isActive" [class.text-bg-secondary]="!product.isActive">
+                                    {{ product.isActive ? 'Active' : 'Hidden' }}
+                                </span>
+                            </td>
+                            <td class="text-end">
+                                <button type="button" class="btn btn-sm btn-outline-dark me-2" (click)="editProduct(product)">Edit</button>
+                                <button type="button" class="btn btn-sm btn-outline-danger" (click)="deleteProduct(product)">Delete</button>
+                            </td>
+                        </tr>
+                        <tr *ngIf="!loading && !products.length">
+                            <td colspan="5" class="text-center py-4">No products yet.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

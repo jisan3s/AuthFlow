@@ -1,0 +1,31 @@
+<div class="d-flex min-vh-100 bg-body-tertiary">
+    <aside class="bg-primary text-white p-4 d-flex flex-column" style="width: 260px;">
+        <div class="mb-4">
+            <span class="badge text-bg-light text-primary mb-3">Admin</span>
+            <h4 class="mb-1">Operations Panel</h4>
+            <p class="text-white-50 mb-0 small">{{ currentUser()?.email }}</p>
+        </div>
+
+        <nav class="nav nav-pills flex-column gap-2">
+            <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" class="nav-link text-white">Homepage</a>
+            <a routerLink="/panel/dashboard" routerLinkActive="active" class="nav-link text-white">Dashboard</a>
+            <a routerLink="/panel/products" routerLinkActive="active" class="nav-link text-white">Products</a>
+            <a routerLink="/panel/activity" routerLinkActive="active" class="nav-link text-white">Activity</a>
+        </nav>
+
+        <button type="button" class="btn btn-outline-light mt-auto" (click)="logout()">Logout</button>
+    </aside>
+
+    <div class="flex-grow-1">
+        <nav class="navbar bg-white border-bottom px-4 py-3 shadow-sm">
+            <div>
+                <div class="small text-muted">Admin Workspace</div>
+                <div class="fw-semibold">{{ currentUser()?.name || 'Admin' }}</div>
+            </div>
+        </nav>
+
+        <div class="p-4">
+            <router-outlet />
+        </div>
+    </div>
+</div>

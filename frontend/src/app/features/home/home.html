@@ -1,0 +1,129 @@
+<main class="storefront">
+    <nav class="navbar navbar-expand-lg storefront-nav" aria-label="Main navigation">
+        <div class="container">
+            <a class="navbar-brand" routerLink="/">AuthFlow Shop</a>
+
+            <div class="nav-actions ms-auto">
+                <a class="nav-link" href="#products">Products</a>
+                <a class="nav-link" href="#testimonials">Reviews</a>
+                @if (canPurchase()) {
+                    <a class="btn btn-outline-dark auth-button" routerLink="/cart">Cart ({{ cartSummary().itemCount }})</a>
+                }
+                @if (currentUser()) {
+                    <a class="btn btn-dark auth-button" [routerLink]="dashboardLink()">{{ dashboardLabel() }}</a>
+                } @else {
+                    <a class="btn btn-link auth-link" routerLink="/auth/login">Login</a>
+                    <a class="btn btn-dark auth-button" routerLink="/auth/register">Register</a>
+                }
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="container hero-grid">
+            <div class="hero-copy">
+                <span class="eyebrow">Spring essentials are live</span>
+                <h1>Modern products for everyday living.</h1>
+                <p>
+                    Discover curated apparel, home goods, and accessories built for clean style,
+                    reliable quality, and effortless online shopping.
+                </p>
+
+                <div class="hero-actions">
+                    <a class="btn btn-dark btn-lg" routerLink="/products">Shop collection</a>
+                    <a class="btn btn-outline-dark btn-lg" routerLink="/auth/register">Create account</a>
+                </div>
+            </div>
+
+            <div class="hero-media" aria-label="Featured shopping collection">
+                <img
+                    src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1300&q=80"
+                    alt="Modern retail display with clothing and accessories"
+                />
+                <div class="hero-badge">
+                    <strong>New</strong>
+                    <span>Curated drops weekly</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section products-section" id="products">
+        <div class="container">
+            <div class="section-heading">
+                <span class="eyebrow">Featured products</span>
+                <h2>Fresh picks for your cart</h2>
+            </div>
+
+            <div class="alert alert-danger" *ngIf="error">{{ error }}</div>
+            <div class="text-center py-4" *ngIf="loading">Loading products...</div>
+
+            <div class="product-grid" *ngIf="!loading">
+                <article class="product-card" *ngFor="let product of products">
+                    <img [src]="product.imageUrl" [alt]="product.name" />
+                    <div class="product-card-body">
+                        <h3>{{ product.name }}</h3>
+                        <dl class="product-details">
+                            <div>
+                                <dt>Price</dt>
+                                <dd>{{ product.price | currency }}</dd>
+                            </div>
+                            <div>
+                                <dt>Stock</dt>
+                                <dd>{{ product.stock }} available</dd>
+                            </div>
+                        </dl>
+                        <div class="product-footer">
+                            @if (canPurchase()) {
+                                <button type="button" class="btn btn-dark btn-sm" [disabled]="product.stock < 1" (click)="addToCart(product)">
+                                    {{ addedId === product._id ? 'Added' : 'Add to cart' }}
+                                </button>
+                            } @else {
+                                <a class="btn btn-outline-dark btn-sm" [routerLink]="dashboardLink()">Manage dashboard</a>
+                            }
+                        </div>
+                    </div>
+                </article>
+            </div>
+
+            <div class="text-center py-4" *ngIf="!loading && !products.length">
+                <p class="text-muted">No products are available yet.</p>
+                <a class="btn btn-outline-dark" routerLink="/products">Visit shop</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="section testimonials-section" id="testimonials">
+        <div class="container">
+            <div class="section-heading">
+                <span class="eyebrow">Customer stories</span>
+                <h2>Trusted by modern stores</h2>
+            </div>
+
+            <div class="testimonial-grid">
+                <article class="testimonial" *ngFor="let testimonial of testimonials">
+                    <p>"{{ testimonial.quote }}"</p>
+                    <div>
+                        <strong>{{ testimonial.name }}</strong>
+                        <span>{{ testimonial.role }}</span>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer class="site-footer">
+    <div class="container footer-content">
+        <div>
+            <a class="footer-brand" routerLink="/">AuthFlow Shop</a>
+            <p>Clean commerce experiences with account access built in.</p>
+        </div>
+        <div class="footer-links">
+            <a href="#products">Products</a>
+            <a href="#testimonials">Testimonials</a>
+            <a routerLink="/auth/login">Login</a>
+            <a routerLink="/auth/register">Register</a>
+        </div>
+    </div>
+</footer>

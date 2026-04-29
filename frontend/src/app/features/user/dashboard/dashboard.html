@@ -1,0 +1,50 @@
+<div class="row g-4">
+    <div class="col-12">
+        <div class="card border-0 shadow-sm p-4">
+            <p class="text-uppercase text-muted small mb-2">Welcome Back</p>
+            <h3 class="mb-2">{{ currentUser()?.name || 'User' }}</h3>
+            <p class="text-muted mb-0">
+                You are signed in as <strong>{{ currentUser()?.email }}</strong>. Use your dashboard to track activity and manage your profile.
+            </p>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card border-0 shadow-sm p-4 h-100">
+            <h5 class="mb-2">Profile Snapshot</h5>
+            <p class="text-muted mb-3">A quick view of your account details.</p>
+            <div class="d-flex flex-column gap-2">
+                <div><strong>Name:</strong> {{ currentUser()?.name || 'Not set' }}</div>
+                <div><strong>Email:</strong> {{ currentUser()?.email }}</div>
+                <div><strong>Role:</strong> {{ currentUser()?.role }}</div>
+            </div>
+            <a routerLink="/user/profile" class="btn btn-outline-dark mt-4 align-self-start">Manage Profile</a>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card border-0 shadow-sm p-4 h-100">
+            <div class="d-flex justify-content-between align-items-center gap-3 mb-2">
+                <h5 class="mb-0">Recent Account Activity</h5>
+                @if (loading) {
+                    <span class="text-muted small">Loading...</span>
+                }
+            </div>
+            <p class="text-muted mb-3">Latest login history and account events.</p>
+            @if (error) {
+                <div class="alert alert-danger">{{ error }}</div>
+            }
+            <div class="list-group list-group-flush mb-3">
+                @for (activity of recentActivities; track activity._id) {
+                    <div class="list-group-item px-0">
+                        <div class="fw-semibold">{{ activity.action }}</div>
+                        <small class="text-muted">{{ activity.createdAt | date:'medium' }}</small>
+                    </div>
+                } @empty {
+                    <div class="text-muted">No activity available yet.</div>
+                }
+            </div>
+            <a routerLink="/user/activity" class="btn btn-dark mt-auto align-self-start">View Activity</a>
+        </div>
+    </div>
+</div>

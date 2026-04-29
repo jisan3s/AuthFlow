@@ -1,0 +1,60 @@
+<main class="shop-page">
+    <nav class="navbar navbar-expand-lg bg-white border-bottom sticky-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold" routerLink="/">AuthFlow Shop</a>
+            <div class="ms-auto d-flex align-items-center gap-2">
+                @if (canPurchase()) {
+                    <a class="btn btn-outline-dark" routerLink="/cart">Cart ({{ cartSummary().itemCount }})</a>
+                }
+                @if (currentUser()) {
+                    <a class="btn btn-dark" [routerLink]="dashboardLink()">{{ dashboardLabel() }}</a>
+                } @else {
+                    <a class="btn btn-dark" routerLink="/auth/login">Login</a>
+                }
+            </div>
+        </div>
+    </nav>
+
+    <section class="shop-hero">
+        <div class="container">
+            <h1>Shop Products</h1>
+            <p>Browse live inventory and build your cart with instant totals.</p>
+        </div>
+    </section>
+
+    <section class="container py-5">
+        <div class="alert alert-danger" *ngIf="error">{{ error }}</div>
+        <div class="text-center py-5" *ngIf="loading">Loading products...</div>
+
+        <div class="product-grid" *ngIf="!loading">
+            <article class="product-card" *ngFor="let product of products">
+                <img [src]="product.imageUrl" [alt]="product.name" />
+                <div class="product-body">
+                    <div class="d-flex justify-content-between gap-3">
+                        <div>
+                            <span class="category">{{ product.category }}</span>
+                            <h2>{{ product.name }}</h2>
+                        </div>
+                        <strong>{{ product.price | currency }}</strong>
+                    </div>
+                    <p>{{ product.description }}</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="stock">{{ product.stock }} in stock</span>
+                        @if (canPurchase()) {
+                            <button class="btn btn-dark" type="button" [disabled]="product.stock < 1" (click)="addToCart(product)">
+                                {{ addedId === product._id ? 'Added' : 'Add to cart' }}
+                            </button>
+                        } @else {
+                            <a class="btn btn-outline-dark" [routerLink]="dashboardLink()">Manage dashboard</a>
+                        }
+                    </div>
+                </div>
+            </article>
+        </div>
+
+        <div class="empty-state" *ngIf="!loading && !products.length">
+            <h2>No products available</h2>
+            <p>Check back soon for new inventory.</p>
+        </div>
+    </section>
+</main>

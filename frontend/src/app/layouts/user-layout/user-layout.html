@@ -1,0 +1,32 @@
+<div class="d-flex min-vh-100 bg-body-tertiary">
+    <aside class="bg-secondary text-white p-4 d-flex flex-column" style="width: 260px;">
+        <div class="mb-4">
+            <span class="badge text-bg-light text-secondary mb-3">User</span>
+            <h4 class="mb-1">Account Space</h4>
+            <p class="text-white-50 mb-0 small">{{ currentUser()?.email }}</p>
+        </div>
+
+        <nav class="nav nav-pills flex-column gap-2">
+            <a routerLink="/user/dashboard" routerLinkActive="active" class="nav-link text-white">Dashboard</a>
+            <a routerLink="/products" routerLinkActive="active" class="nav-link text-white">Shop</a>
+            <a routerLink="/cart" routerLinkActive="active" class="nav-link text-white">Cart</a>
+            <a routerLink="/user/activity" routerLinkActive="active" class="nav-link text-white">Activity</a>
+            <a routerLink="/user/profile" routerLinkActive="active" class="nav-link text-white">Profile</a>
+        </nav>
+
+        <button type="button" class="btn btn-outline-light mt-auto" (click)="logout()">Logout</button>
+    </aside>
+
+    <div class="flex-grow-1">
+        <nav class="navbar bg-white border-bottom px-4 py-3 shadow-sm">
+            <div>
+                <div class="small text-muted">User Workspace</div>
+                <div class="fw-semibold">{{ currentUser()?.name || 'User' }}</div>
+            </div>
+        </nav>
+
+        <div class="p-4">
+            <router-outlet />
+        </div>
+    </div>
+</div>

@@ -1,0 +1,33 @@
+<div class="d-flex min-vh-100 bg-body-tertiary">
+    <aside class="bg-dark text-white p-4 d-flex flex-column" style="width: 280px;">
+        <div class="mb-4">
+            <span class="badge text-bg-light text-dark mb-3">Main Admin</span>
+            <h4 class="mb-1">AuthFlow Control</h4>
+            <p class="text-white-50 mb-0 small">{{ currentUser()?.email }}</p>
+        </div>
+
+        <nav class="nav nav-pills flex-column gap-2">
+            <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" class="nav-link text-white">Homepage</a>
+            <a routerLink="/admin/dashboard" routerLinkActive="active" class="nav-link text-white">Dashboard</a>
+            <a routerLink="/admin/users" routerLinkActive="active" class="nav-link text-white">Users</a>
+            <a routerLink="/admin/admin-management" routerLinkActive="active" class="nav-link text-white">Admins</a>
+            <a routerLink="/admin/products" routerLinkActive="active" class="nav-link text-white">Products</a>
+            <a routerLink="/admin/settings" routerLinkActive="active" class="nav-link text-white">Settings</a>
+        </nav>
+
+        <button type="button" class="btn btn-outline-light mt-auto" (click)="logout()">Logout</button>
+    </aside>
+
+    <div class="flex-grow-1">
+        <nav class="navbar bg-white border-bottom px-4 py-3 shadow-sm">
+            <div>
+                <div class="small text-muted">Main Admin Panel</div>
+                <div class="fw-semibold">{{ currentUser()?.name || 'Administrator' }}</div>
+            </div>
+        </nav>
+
+        <div class="p-4">
+            <router-outlet />
+        </div>
+    </div>
+</div>

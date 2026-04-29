@@ -1,0 +1,80 @@
+<div class="container-fluid">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h3 class="mb-1">Command Center</h3>
+            <p class="text-muted mb-0">Track users, admin accounts, products, and recent account activity.</p>
+        </div>
+        @if (loading) {
+            <span class="text-muted">Loading...</span>
+        }
+    </div>
+
+    @if (error) {
+        <div class="alert alert-danger">{{ error }}</div>
+    }
+
+    <div class="row g-3">
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm p-3 h-100">
+                <small class="text-uppercase text-muted">All Users</small>
+                <h2 class="mb-1">{{ stats?.totalAllUsers ?? 0 }}</h2>
+                <p class="text-muted mb-0">Every account in the platform</p>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm p-3 h-100">
+                <small class="text-uppercase text-muted">Admin Users</small>
+                <h2 class="mb-1">{{ stats?.totalAdmins ?? 0 }}</h2>
+                <p class="text-muted mb-0">Operational admin accounts</p>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm p-3 h-100">
+                <small class="text-uppercase text-muted">Products</small>
+                <h2 class="mb-1">{{ stats?.totalProducts ?? 0 }}</h2>
+                <p class="text-muted mb-0">{{ stats?.activeProducts ?? 0 }} visible in shop</p>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm p-3 h-100">
+                <small class="text-uppercase text-muted">Activities</small>
+                <h2 class="mb-1">{{ stats?.totalActivities ?? 0 }}</h2>
+                <p class="text-muted mb-0">Tracked events across the platform</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="card mt-4 border-0 shadow-sm p-3">
+        <h5 class="mb-1">Recent Activities</h5>
+        <p class="text-muted mb-3">Latest system events from users and admins.</p>
+
+        <table class="table mt-1 align-middle">
+            <thead>
+                <tr>
+                    <th>User</th>
+                    <th>Role</th>
+                    <th>Action</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @for (item of stats?.recentActivities; track item._id) {
+                    <tr>
+                        <td>{{ item.userId?.email || 'Unknown user' }}</td>
+                        <td>{{ item.userId?.role || '-' }}</td>
+                        <td>{{ item.action }}</td>
+                        <td>{{ item.createdAt | date:'short' }}</td>
+                    </tr>
+                } @empty {
+                    <tr>
+                        <td colspan="4" class="text-center text-muted">No recent activity found.</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
