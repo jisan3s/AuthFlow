@@ -156,10 +156,10 @@ Main route groups:
 ## Security Notes
 
 - Never commit `.env` files or real credentials.
-- Use a strong `JWT_SECRET`.
+- Use a strong `JWT_SECRET` in production.
 - Use Stripe test keys only for local development, and keep them in your local `.env` file.
 - Rotate any credential that was accidentally committed or shared.
-- Review CORS and environment-specific URLs before sharing the app outside local development.
+- Restrict CORS and environment-specific URLs before production deployment.
 
 ## Validation
 
